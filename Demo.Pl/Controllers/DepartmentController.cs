@@ -1,5 +1,6 @@
 ﻿using Demo.BLA.Dto.Departments;
 using Demo.BLA.Services.Departments;
+using Demo.Pl.View_Model.Departments;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Pl.Controllers
@@ -13,7 +14,7 @@ namespace Demo.Pl.Controllers
         private readonly IWebHostEnvironment _env;
 
         //Action ==> Master Action
-        public DepartmentController(IDepartmentService departmentService ,ILogger<DepartmentController> logger , IWebHostEnvironment env)
+        public DepartmentController(IDepartmentService departmentService, ILogger<DepartmentController> logger, IWebHostEnvironment env)
         {
             _departmentService = departmentService;
             _logger = logger;
@@ -46,17 +47,17 @@ namespace Demo.Pl.Controllers
             {
                 string message = string.Empty;
                 //lOG eXCEPTION
-                _logger.LogError(ex,ex.Message);
+                _logger.LogError(ex, ex.Message);
                 if (_env.IsDevelopment())
                 {
                     message = ex.Message;
                     return View(departmentToCreateDto);
                 }
-                else 
+                else
                 {
 
                     message = "Department Can't be created";
-                    return View("Error",message);
+                    return View("Error", message);
                 }
 
             }
@@ -68,10 +69,54 @@ namespace Demo.Pl.Controllers
             if (id is null)
                 return BadRequest();//400
             var department = _departmentService.GetById(id.Value);
-            if(department is null)
+            if (department is null)
                 return NotFound();//404
             return View(department);
 
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (id is null)
+                return BadRequest();
+            var department = _departmentService.GetById(id.Value);
+            if (department is null)
+                return NotFound();
+            return View(new DepartmentEditViewModel()
+            {
+                Name = department.Name,
+                Code = department.Code,
+                CreationDate = department.CreationDate,
+                Description = department.Description,
+            });
+        }
+
+        [HttpPost]
+        public IActionResult Edit(DepartmentEditViewModel editViewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(editViewModel);
+            }
+            var message = string.Empty;
+            try
+            {
+                _departmentService.Update(new DepartmentToUpdateDto()
+                {
+                    Name = editViewModel.Name,
+                    Code = editViewModel.Code,
+                    CreationDate = editViewModel.CreationDate,
+                    Description = editViewModel.Description,
+
+                });
+                return View(editViewModel);
+            }
+            catch (Exception ex)
+            {
+                message = _env.IsDevelopment() ? ex.Message : "Department Can't Be Updated";
+            }
+            return View(editViewModel);
         }
     }
 }
