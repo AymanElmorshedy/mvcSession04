@@ -118,5 +118,22 @@ namespace Demo.Pl.Controllers
             }
             return View(editViewModel);
         }
+        [HttpGet]
+        public IActionResult Delete(int? id)
+        {
+            if(id is null)
+                return BadRequest();
+            var department =_departmentService.GetById(id.Value);
+            if(department is null) return NotFound();
+            return View(department);
+
+        }
+
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            _departmentService.Delete(id);
+            return View(nameof(Index));
+        }
     }
 }
