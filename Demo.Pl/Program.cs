@@ -1,6 +1,8 @@
 using Demo.BLA.Services.Departments;
+using Demo.BLA.Services.Employees;
 using Demo.DAL.Presistanse.Data;
 using Demo.DAL.Presistanse.Repositories.Departments;
+using Demo.DAL.Presistanse.Repositories.Employees;
 using Microsoft.EntityFrameworkCore;
 
 namespace Demo.Pl
@@ -20,6 +22,8 @@ namespace Demo.Pl
             });
             builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
             builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 
             WebApplication? app = builder.Build();

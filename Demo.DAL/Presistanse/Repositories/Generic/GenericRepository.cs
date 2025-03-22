@@ -20,11 +20,12 @@ namespace Demo.DAL.Presistanse.Repositories.Generic
         }
         public ICollection<T> GetAll(bool AsNoTracking = true)
         {
+            //IsDeleted ==> false
             if (AsNoTracking)
             {
-                return _dbContext.Set<T>().AsNoTracking().ToList();
+                return _dbContext.Set<T>().Where(x=>!x.IsDeleted).AsNoTracking().ToList();
             }
-            return _dbContext.Set<T>().ToList();
+            return _dbContext.Set<T>().Where(x=>!x.IsDeleted).ToList();
         }
         public T? GetById(int id)
         {
@@ -43,8 +44,12 @@ namespace Demo.DAL.Presistanse.Repositories.Generic
 
         public void Delete(T entity)
         {
-            _dbContext.Set<T>().Remove(entity);
-            _dbContext.SaveChanges();
+            //_dbContext.Set<T>().Remove(entity);
+            //_dbContext.SaveChanges();
+            //IsDeleted ==> True ==>Deleted[DisApear From Users]
+            entity.IsDeleted = true;
+            _dbContext.Set<T>().Update(entity);
+            _dbContext.SaveChanges() ;
         }
 
 
