@@ -21,7 +21,7 @@ namespace Demo.BLA.Services.Departments
 
         public IEnumerable<DepartmentToReutrnDto> GetAll()
         {
-         var departments= _departmentRepository.GetAllQuerable().Select(department=> new DepartmentToReutrnDto()
+         var departments= _departmentRepository.GetAllQuerable().Where(d=>!d.IsDeleted).Select(department=> new DepartmentToReutrnDto()
          {
              Description = department.Description,
              CreationDate = department.CreationDate,

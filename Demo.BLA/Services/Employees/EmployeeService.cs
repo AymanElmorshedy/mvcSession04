@@ -54,7 +54,7 @@ namespace Demo.BLA.Services.Employees
 
         public IEnumerable<EmployeeToReutrnDto> GetAll()
         {
-          return _employeeRepository.GetAllQuerable().Select(employee=> new EmployeeToReutrnDto()
+          return _employeeRepository.GetAllQuerable().Where(e=>e.IsDeleted==false).Select(employee=> new EmployeeToReutrnDto()
            {
               Id=employee.Id,
               Name=employee.Name,
