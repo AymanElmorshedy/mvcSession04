@@ -1,39 +1,83 @@
-﻿@using Demo.Pl.View_Model.Departments
-@model DepartmentEditViewModel
+﻿
+@model EmployeeToUpdateDto
 @{
     ViewData["Title"] = "Edit";
 }
 
 
 <div class="justify-content-center align-content-center mt-3">
-    <h1 class="col-8 my-4">Edit department</h1>
-    <form method="post" asp-controller="Department" asp-action="Edit">
+    <h1 class="col-8 my-4">Edit Employee</h1>
+    <form method="post" asp-controller="Employee" asp-action="Edit">
         <div asp-validation-summary="All"></div>
         <div class="form-group mb-3">
             @* <label class="form-label" for="Code">Code</label> *@
             @* <input id="Code" name="Code" type="text" /> *@
-            <label class="form-label " asp-for="Code">Code</label>
-            <input asp-for="Code" class="form-control" />
-            <span asp-validation-for="Code" class="text-danger"></span>
-
-        </div>
-        <div class="form-group mb-3">
             <label class="form-label " asp-for="Name">Name</label>
             <input asp-for="Name" class="form-control" />
-            <span asp-validation-for="Name" class="text-danger"></span>@*Name Is Reqired*@
+            <span asp-validation-for="Name" class="text-danger"></span>
 
         </div>
         <div class="form-group mb-3">
-            <label class="form-label" asp-for="Description">Description</label>
-            <textarea class="form-control" asp-for="Description"></textarea>
+            <label class="form-label " asp-for="Email">Email</label>
+            <input asp-for="Email" class="form-control" />
+            <span asp-validation-for="Email" class="text-danger"></span>@*Name Is Reqired*@
+
         </div>
         <div class="form-group mb-3">
-            <label class="form-label " asp-for="CreationDate">CreationDate</label>
-            <input type="date" asp-for="CreationDate" class="form-control" />
+            <label class="form-label" asp-for="Address">Address</label>
+            <textarea class="form-control" asp-for="Address"></textarea>
+        </div>
+        <div class="form-group mb-3">
+            <label class="form-label " asp-for="PhoneNumber">Phone Number</label>
+            <input type="date" asp-for="PhoneNumber" class="form-control" />
+        </div>
+        <div class="form-group mb-3">
+            <label class="form-label " asp-for="Age">Age </label>
+            <input type="date" asp-for="Age" class="form-control" />
+        </div>
+        <div class="form-group mb-3">
+            <label class="form-label " asp-for="HiringDate">Hiring date</label>
+            <input type="date" asp-for="HiringDate" class="form-control" />
+        </div>
+        <div class="form-group mb-3">
+            <label class="form-label " asp-for="Salary">Salary </label>
+            <input type="date" asp-for="Salary" class="form-control" />
+        </div>
+        <div class="form-group mb-3">
+            <label class="form-label " asp-for="PhoneNumber">Phone Number</label>
+            <input type="date" asp-for="PhoneNumber" class="form-control" />
+        </div>
+        <div>
+            <label class="form-label " asp-for="Gender">Gender</label>
+            <div>
+                @foreach (Gender genderOption in Enum.GetValues(typeof(Gender)))
+                {
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" asp-for=Gender value="@genderOption" />
+                        <label class="form-check-label">@genderOption</label>
+
+
+                    </div>
+
+                }
+            </div>
+            <span asp-validation-for="Gender" class="text-danger"></span>
+        </div>
+        <div class="form-group mb-3">
+            <select asp-for="EmployeeType" asp-items="Html.GetEnumSelectList<EmployeeType>()" class="form-control">
+                <options value="">Select Employee Type</options>
+            </select>
+            <span asp-validation-for="EmployeeType" class="text-danger"></span>
+
+
+        </div>
+        <div class="form-group mb-3">
+            <input class="form-check-input " asp-for="IsActive" />
+            <label asp-for="IsActive" class="col-form-label">Is Active</label>
         </div>
         <div class="mt-4 m-auto">
             <input class="btn btn-success" type="submit" value="Edit" />
-            <a asp-controller="Department" asp-action="Edit" class="btn btn-outline-dark"> Back to list</a>
+            <a asp-controller="Èmployee" asp-action="Edit" class="btn btn-outline-dark"> Back to list</a>
         </div>
     </form>
 </div>
