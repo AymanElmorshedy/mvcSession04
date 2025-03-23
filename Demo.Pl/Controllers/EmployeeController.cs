@@ -1,5 +1,6 @@
 ﻿using Demo.BLA.Dto.Employees;
 using Demo.BLA.Services.Employees;
+using Demo.DAL.Entites.Common.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Demo.Pl.Controllers
@@ -75,49 +76,52 @@ namespace Demo.Pl.Controllers
 
         }
 
-        //[HttpGet]
-        //public IActionResult Edit(int? id)
-        //{
-        //    if (id is null)
-        //        return BadRequest();
-        //    var Employee = _EmployeeService.GetById(id.Value);
-        //    if (Employee is null)
-        //        return NotFound();
-        //    return View(new EmployeeEditViewModel()
-        //    {
-        //        Name = Employee.Name,
-        //        Code = Employee.Code,
-        //        CreationDate = Employee.CreationDate,
-        //        Description = Employee.Description,
-        //    });
-        //}
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (id is null)
+                return BadRequest();
+            var Employee = _EmployeeService.GetById(id.Value);
+            if (Employee is null)
+                return NotFound();
+            return View(new EmployeeToUpdateDto()
+            {
+                EmployeeType=Enum.Parse<EmployeeType>( Employee.EmployeeType),
+                Address= Employee.Address,
+                Gender= Enum.Parse<Gender>(Employee.Gender),
+                Name=Employee.Name,
+                Age=Employee.Age,
+                Salary=Employee.Salary,
+                IsActive=Employee.IsActive,
+                Email=Employee.Email,
+                HiringDate=Employee.HiringDate,
+                Id=id.Value,
+                PhoneNumber= Employee.PhoneNumber
 
-        //[HttpPost]
-        //public IActionResult Edit(EmployeeEditViewModel editViewModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(editViewModel);
-        //    }
-        //    var message = string.Empty;
-        //    try
-        //    {
-        //        _EmployeeService.Update(new EmployeeToUpdateDto()
-        //        {
-        //            Name = editViewModel.Name,
-        //            Code = editViewModel.Code,
-        //            CreationDate = editViewModel.CreationDate,
-        //            Description = editViewModel.Description,
+           
+            });
+        }
 
-        //        });
-        //        return View(editViewModel);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        message = _env.IsDevelopment() ? ex.Message : "Employee Can't Be Updated";
-        //    }
-        //    return View(editViewModel);
-        //}
+        [HttpPost]
+        public IActionResult Edit( int id,EmployeeToUpdateDto employeeToUpdateDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(employeeToUpdateDto);
+            }
+            var message = string.Empty;
+            try
+            {
+                _EmployeeService.Update(employeeToUpdateDto);
+         
+                return View(employeeToUpdateDto);
+            }
+            catch (Exception ex)
+            {
+                message = _env.IsDevelopment() ? ex.Message : "Employee Can't Be Updated";
+            }
+            return View(employeeToUpdateDto);
+        }
         [HttpGet]
         public IActionResult Delete(int? id)
         {
