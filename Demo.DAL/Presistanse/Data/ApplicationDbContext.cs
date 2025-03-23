@@ -1,4 +1,5 @@
 ﻿using Demo.DAL.Entites.Departments;
+using Demo.DAL.Entites.Employees;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -27,5 +28,6 @@ namespace Demo.DAL.Presistanse.Data
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());//Apply all configuration classes
         }
         public DbSet<Department> Departments { get; set; }
+        public DbSet<Employee> Employees { get; set; }
     }
 }
